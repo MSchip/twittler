@@ -2,10 +2,48 @@ body{
 }
 
  .getTweets{
-  display: inline-block;
-  width: 400px;
+  display: block;
+  position: relative;
+  margin: 0px auto 10px auto;
+  width: 500px;
+  padding: 5px;
+  border: 1px gray solid;
+  text-align: center;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
 }
 
-.tweetList{
-  list-style-type: none;
+.container{
+  width: 960px;
+  margin: 0 auto 0 auto;
+}
+
+.tweetBlock{
+	width: 500px;
+	display: block;
+	position: relative;
+	margin: 0px auto 5px auto;
+	border-top: 1px gray solid;
+	border-left: 1px gray solid;
+	border-right: 1px gray solid;
+	-webkit-border-top-left: 15px;
+	border-top-left-radius: 15px;
+	-webkit-border-top-right: 15px; 
+	border-top-right-radius: 15px;
+	padding: 5px;
+}
+
+.user{
+
+}
+
+.content{
+	margin: 0px;
+}
+
+.timeStamp{
+	font-size: 12px;
+	color: gray;
+	text-align: right;
+	line-height: 12px;
 }
