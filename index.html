@@ -3,20 +3,10 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    
   </head>
   <body>
-    <style>
-      .tweets {
-        display: inline-block;
-        width: 15%;
-        margin-left: center;
-      }
-
-      .tweet {
-        text-decoration: none;
-      }
-
-    </style>
     <script>
 //Creates two global variables, users and streams.
 //users is an array of strings -- all the usernames that you're following.
@@ -41,10 +31,10 @@
 //more about data_generator.js, but you shouldn't need to modify anything.)
       $(document).ready(function(){
         var $body = $('body');
-        $body.html('');
+        $body.find('.tweetList').html('');
         
-        $body.prepend("<button class=\"tweets\" >New Tweets</button>");
-        $body.append('<ul class = \"tweetList\"></ul>');
+        $body.prepend("<button class=\"tweets\" >Get New Tweets</button>");
+        $body.append('<ul class=\"tweetList\"></ul>');
 
         
         //Load last 50 tweets on click
@@ -70,5 +60,6 @@
       });
 
     </script>
+
   </body>
 </html>
