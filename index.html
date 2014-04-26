@@ -42,12 +42,27 @@
         $body.on('click', '.getTweets', function(event){
           event.preventDefault;
           $(this).closest($body).find('.container').html('');
+          var timelapse;
+          var current = new Date();
+          var currentHours = current.getUTCHours();
+          var currentMins = current.getUTCMinutes();
+          var currentSecs = current.getUTCSeconds();
+
+
+
           var numTweets = streams.home.length > 49 ? 50 : streams.home.length-1;
           var newTweets = streams.home.length-1;
           var index = newTweets;
 
           while(index >= (newTweets-numTweets)){
             var tweet = streams.home[index];
+            if((currentHours - tweet['created_at'].getUTCHours())>0){
+              timelapse = currentHours - tweet['created_at'].getUTCHours + " hours ago"
+            }else if((currentMins - tweet['created_at'].getUTCMinutes())>0){
+              timelapse = currentMins - tweet['created_at'].getUTCMinutes() + " minutes ago"
+            }else{
+              timelapse = currentSecs - tweet['created_at'].getUTCSeconds() + " seconds ago"
+            }
 
             // var $tweet = $('<p class = \"tweet\"></p>');
             // $tweet.text('@' + tweet.user + ': ' + tweet.message);
@@ -56,20 +71,9 @@
 
 
             var $tweetBlock = $('<div class="tweetBlock"></div>');
-            $tweetBlock.prepend($('<header class="user">@' + tweet.user + '</header>'));
-            $tweetBlock.prepend($('<p class="content">' + tweet.message + '</p>'));
-            $tweetBlock.prepend($('<footer class="timeStamp">' + tweet['created_at'] + '</footer>'));
-            // var $user = $('<header class="user"></header>');
-            // $user.text('@' + tweet.home.user);
-            // var $content = $('<p class="content"></p>');
-            // $content.text(tweet.home.message);
-            // var $timeStamp = $('<footer class="timeStamp"></footer>')
-            // $timeStamp.text(tweet.home['created_at']);
-
-            // $tweetBlock.append($timeStamp);
-            // $tweetBlock.append($content);
-            // $tweetBlock.append($user);
-
+            $tweetBlock.append($('<header class="user">@' + tweet.user + '</header>'));
+            $tweetBlock.append($('<p class="content">' + tweet.message + '</p>'));
+            $tweetBlock.append($('<footer class="timeStamp">' + timelapse + '</footer>'));
 
             $(this).closest('body').find('.container').append($tweetBlock);
 
