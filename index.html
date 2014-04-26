@@ -4,31 +4,10 @@
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
     <link rel="stylesheet" href="css/main.css">
-    
   </head>
+
   <body>
     <script>
-//Creates two global variables, users and streams.
-//users is an array of strings -- all the usernames that you're following.
-//streams is an object with two properties, users and home.
-//streams.home is an array of all tweets from all the users you're following.
-//streams.users is an object with properties for each user. streams.users.
-//shawndrost has all of shawndrost's tweets.
-//Kicks off a periodic process that puts more data in streams.
-//You'll mostly be working in the javascript block of index.html. Note: The 
-//generated tweets will be displayed in reverse chronological order.
-//Basic Requirements:
-//Show the user new tweets somehow. (You can show them automatically as they're 
-//created, or create a button that displays new tweets.)
-//Display the timestamps of when the tweets were created.
-//Design your interface so that you want to look at and use the product you're 
-//making.
-//Allow the user to click on a username to see that user's timeline.
-//Extra credit:
-//Show when the tweets were created in a human-friendly way (eg "10 minutes ago"). 
-//You'll want to find and use a library for this.
-//Allow the user to tweet. (This is going to require you to understand a little 
-//more about data_generator.js, but you shouldn't need to modify anything.)
       $(document).ready(function(){
         var $body = $('body');
         var numTweets;
@@ -43,21 +22,20 @@
 
         
         $body.append("<div class=\"getTweets\" >Get New Tweets</div>");
-        $body.append("<div class=\"container\"></div>");
+        $body.append("<div class=\"tweetContainer\"></div>");
+        $body.append("<div class=\"old\" >Old Tweets</div>");
 
         
         //Load last 50 tweets on click
         $body.on('click', '.getTweets', function(event){
           event.preventDefault;
-          $(this).closest($body).find('.container').html('');
+          $(this).closest($body).find('.tweetContainer').html('');
 
           //Sets the current date values used in displaying the timestamps
           current = new Date();
           currentHours = current.getUTCHours();
           currentMins = current.getUTCMinutes();
           currentSecs = current.getUTCSeconds();
-
-
 
           numTweets = streams.home.length > 49 ? 50 : streams.home.length-1;
           newTweets = streams.home.length-1;
@@ -91,8 +69,7 @@
             $tweetBlock.append($('<p class="content">' + tweet.message + '</p>'));
             $tweetBlock.append($('<footer class="timeStamp">' + timelapse + timeMessage + '</footer>'));
 
-            $(this).closest('body').find('.container').append($tweetBlock);
-
+            $(this).closest('body').find('.tweetContainer').append($tweetBlock);
             
             index--;
           }
@@ -100,6 +77,49 @@
         });
 
         $body.find('.getTweets').click();
+
+        
+        $body.on('click', '.old', function(event){
+          
+          newTweets = newTweets-numTweets-1;
+          var index = newTweets;
+          numTweets = index > 19 ? 20 : newTweets;
+          
+
+          while(index >= newTweets-numTweets){
+            var tweet = streams.home[index];
+
+            // Variables for setting the timestamp
+            var tweetHour = tweet['created_at'].getUTCHours();
+            var tweetMin = tweet['created_at'].getUTCMinutes();
+            var tweetSec = tweet['created_at'].getUTCSeconds();
+            var timeMessage;
+
+            //setting the values for the timestamp
+            if(currentHours - tweetHour>0){
+              timelapse = currentHours - tweetHour; 
+              timelapse > 1 ? timeMessage = " hours ago" : timeMessage = " hour ago";
+            }else if(currentMins - tweetMin>0){
+              timelapse = currentMins - tweetMin;
+              timelapse > 1 ? timeMessage = " minutes ago" : timeMessage = " minute ago";
+            }else{
+              timelapse = currentSecs - tweetSec;
+              timelapse === 1 ? timeMessage = " second ago" : timeMessage = " seconds ago"; 
+            }
+
+
+            //Creates a div block for each tweet putting the user in a header and timestamp in a footer
+            var $tweetBlock = $('<div class="tweetBlock"></div>');
+            $tweetBlock.append($('<header class="user">@' + tweet.user + '</header>'));
+            $tweetBlock.append($('<p class="content">' + tweet.message + '</p>'));
+            $tweetBlock.append($('<footer class="timeStamp">' + timelapse + timeMessage + '</footer>'));
+
+            $(this).closest('body').find('.tweetContainer').append($tweetBlock);
+            
+            index--;
+          }
+
+        });
 
       });
 
