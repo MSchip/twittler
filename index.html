@@ -56,12 +56,24 @@
 
           while(index >= (newTweets-numTweets)){
             var tweet = streams.home[index];
-            if((currentHours - tweet['created_at'].getUTCHours())>0){
-              timelapse = currentHours - tweet['created_at'].getUTCHours + " hours ago"
-            }else if((currentMins - tweet['created_at'].getUTCMinutes())>0){
-              timelapse = currentMins - tweet['created_at'].getUTCMinutes() + " minutes ago"
+
+            var tweetHour = tweet['created_at'].getUTCHours();
+            var tweetMin = tweet['created_at'].getUTCMinutes();
+            var tweetSec = tweet['created_at'].getUTCSeconds();
+            var timeMessage;
+
+
+
+
+            if(currentHours - tweetHour>0){
+              timelapse = currentHours - tweetHour; 
+              timelapse > 1 ? timeMessage = " hours ago" : timeMessage = " hour ago";
+            }else if(currentMins - tweetMin>0){
+              timelapse = currentMins - tweetMin;
+              timelapse > 1 ? timeMessage = " minutes ago" : timeMessage = " minute ago";
             }else{
-              timelapse = currentSecs - tweet['created_at'].getUTCSeconds() + " seconds ago"
+              timelapse = currentSecs - tweetSec;
+              timelapse === 1 ? timeMessage = " second ago" : timeMessage = " seconds ago"; 
             }
 
             // var $tweet = $('<p class = \"tweet\"></p>');
@@ -73,7 +85,7 @@
             var $tweetBlock = $('<div class="tweetBlock"></div>');
             $tweetBlock.append($('<header class="user">@' + tweet.user + '</header>'));
             $tweetBlock.append($('<p class="content">' + tweet.message + '</p>'));
-            $tweetBlock.append($('<footer class="timeStamp">' + timelapse + '</footer>'));
+            $tweetBlock.append($('<footer class="timeStamp">' + timelapse + timeMessage + '</footer>'));
 
             $(this).closest('body').find('.container').append($tweetBlock);
 
