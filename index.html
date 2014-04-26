@@ -12,7 +12,7 @@
         margin-left: center;
       }
 
-      li {
+      .tweet {
         text-decoration: none;
       }
 
@@ -44,36 +44,28 @@
         $body.html('');
         
         $body.prepend("<button class=\"tweets\" >New Tweets</button>");
-        $body.append('<ul></ul>');
-
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<li></li>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $body.find('ul').append($tweet);
-          index -= 1;
-        }
-     
+        $body.append('<ul class = \"tweetList\"></ul>');
 
         
         //Load last 50 tweets on click
         $body.on('click', '.tweets', function(event){
           event.preventDefault;
-          $(this).closest($body).find('ul').html('');
-          var numTweets = streams.home.length > 49 ? 50 : streams.home.length;
+          $(this).closest($body).find('.tweetList').html('');
+          var numTweets = streams.home.length > 49 ? 50 : streams.home.length-1;
           var newTweets = streams.home.length-1;
           var index = newTweets;
 
           while(index >= (newTweets-numTweets)){
             var tweet = streams.home[index];
-            var $tweet = $('<li></li>');
-            $tweet.text('@' + tweet.user + ': ' + tweet.message);
-            $(this).closest('body').find('ul').append($tweet);
+            var $tweet = $('<li class = \"tweet\"></li>');
+            $tweet.text('@' + tweet['user'] + ': ' + tweet.message);
+            $(this).closest('body').find('.tweetList').append($tweet);
             index--;
           }
 
         });
+
+        $body.find('.tweets').click();
 
       });
 
