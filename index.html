@@ -32,30 +32,54 @@
       $(document).ready(function(){
         var $body = $('body');
         $body.find('.tweetList').html('');
+
         
-        $body.prepend("<button class=\"tweets\" >Get New Tweets</button>");
-        $body.append('<ul class=\"tweetList\"></ul>');
+        $body.append("<button class=\"getTweets\" >Get New Tweets</button>");
+        $body.append("<div class=\"container\"></div>");
 
         
         //Load last 50 tweets on click
-        $body.on('click', '.tweets', function(event){
+        $body.on('click', '.getTweets', function(event){
           event.preventDefault;
-          $(this).closest($body).find('.tweetList').html('');
+          $(this).closest($body).find('.container').html('');
           var numTweets = streams.home.length > 49 ? 50 : streams.home.length-1;
           var newTweets = streams.home.length-1;
           var index = newTweets;
 
           while(index >= (newTweets-numTweets)){
             var tweet = streams.home[index];
-            var $tweet = $('<li class = \"tweet\"></li>');
-            $tweet.text('@' + tweet['user'] + ': ' + tweet.message);
-            $(this).closest('body').find('.tweetList').append($tweet);
+
+            // var $tweet = $('<p class = \"tweet\"></p>');
+            // $tweet.text('@' + tweet.user + ': ' + tweet.message);
+            // $(this).closest('body').find('.container').append($tweet);
+
+
+
+            var $tweetBlock = $('<div class="tweetBlock"></div>');
+            $tweetBlock.prepend($('<header class="user">@' + tweet.user + '</header>'));
+            $tweetBlock.prepend($('<p class="content">' + tweet.message + '</p>'));
+            $tweetBlock.prepend($('<footer class="timeStamp">' + tweet['created_at'] + '</footer>'));
+            // var $user = $('<header class="user"></header>');
+            // $user.text('@' + tweet.home.user);
+            // var $content = $('<p class="content"></p>');
+            // $content.text(tweet.home.message);
+            // var $timeStamp = $('<footer class="timeStamp"></footer>')
+            // $timeStamp.text(tweet.home['created_at']);
+
+            // $tweetBlock.append($timeStamp);
+            // $tweetBlock.append($content);
+            // $tweetBlock.append($user);
+
+
+            $(this).closest('body').find('.container').append($tweetBlock);
+
+            
             index--;
           }
 
         });
 
-        $body.find('.tweets').click();
+        $body.find('.getTweets').click();
 
       });
 
