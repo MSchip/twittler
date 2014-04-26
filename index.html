@@ -12,7 +12,7 @@
         margin-left: center;
       }
 
-      li{
+      li {
         text-decoration: none;
       }
 
@@ -42,24 +42,38 @@
       $(document).ready(function(){
         var $body = $('body');
         $body.html('');
-        var newTweets;
+        
         $body.prepend("<button class=\"tweets\" >New Tweets</button>");
-        $body.prepend('<ul></ul>');
+        $body.append('<ul></ul>');
 
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
           var $tweet = $('<li></li>');
           $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
+          $body.find('ul').append($tweet);
           index -= 1;
         }
+     
 
         
+        //Load last 50 tweets on click
+        $body.on('click', '.tweets', function(event){
+          event.preventDefault;
+          $(this).closest($body).find('ul').html('');
+          var numTweets = streams.home.length > 49 ? 50 : streams.home.length;
+          var newTweets = streams.home.length-1;
+          var index = newTweets;
 
-        $body.on('click', '.tweets', function(){
+          while(index >= (newTweets-numTweets)){
+            var tweet = streams.home[index];
+            var $tweet = $('<li></li>');
+            $tweet.text('@' + tweet.user + ': ' + tweet.message);
+            $(this).closest('body').find('ul').append($tweet);
+            index--;
+          }
 
-        })
+        });
 
       });
 
