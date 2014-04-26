@@ -33,9 +33,6 @@
 
           //Sets the current date values used in displaying the timestamps
           current = new Date();
-          currentHours = current.getUTCHours();
-          currentMins = current.getUTCMinutes();
-          currentSecs = current.getUTCSeconds();
 
           numTweets = streams.home.length > 49 ? 50 : streams.home.length-1;
           newTweets = streams.home.length-1;
@@ -45,24 +42,24 @@
             var tweet = streams.home[index];
 
             // Variables for setting the timestamp
-            var tweetHour = tweet['created_at'].getUTCHours();
-            var tweetMin = tweet['created_at'].getUTCMinutes();
-            var tweetSec = tweet['created_at'].getUTCSeconds();
+            var tweetDate = tweet['created_at'];
+            var dateDiff = Math.ceil((current - tweetDate)/1000);
             var timeMessage;
 
+
             //setting the values for the timestamp
-            if(currentHours - tweetHour>0){
-              timelapse = currentHours - tweetHour; 
-              timelapse > 1 ? timeMessage = " hours ago" : timeMessage = " hour ago";
-            }else if(currentMins - tweetMin>0){
-              timelapse = currentMins - tweetMin;
-              timelapse > 1 ? timeMessage = " minutes ago" : timeMessage = " minute ago";
+            if(dateDiff < 60){
+              timelapse = dateDiff;
+              timelapse === 1 ? timeMessage = " second ago" : timeMessage = " seconds ago";
+            }else if(dateDiff < 3599){
+              timelapse = Math.round(dateDiff/60);
+              timelapse ===1 ? timeMessage = " minute ago" : timeMessage = " minutes ago"
             }else{
-              timelapse = currentSecs - tweetSec;
-              timelapse === 1 ? timeMessage = " second ago" : timeMessage = " seconds ago"; 
+              timelapse = Math.round(dateDiff/3600);
+              timelapse === 1 ? timeMessage = " hour ago" : timeMessage = " hours ago";
             }
 
-
+            
             //Creates a div block for each tweet putting the user in a header and timestamp in a footer
             var $tweetBlock = $('<div class="tweetBlock"></div>');
             $tweetBlock.append($('<header class="user">@' + tweet.user + '</header>'));
@@ -75,10 +72,11 @@
           }
 
         });
-
+        
+        // Initial load
         $body.find('.getTweets').click();
 
-        
+        // Loads the next 20 older tweets when clicked
         $body.on('click', '.old', function(event){
           
           newTweets = newTweets-numTweets-1;
@@ -90,21 +88,21 @@
             var tweet = streams.home[index];
 
             // Variables for setting the timestamp
-            var tweetHour = tweet['created_at'].getUTCHours();
-            var tweetMin = tweet['created_at'].getUTCMinutes();
-            var tweetSec = tweet['created_at'].getUTCSeconds();
+            var tweetDate = tweet['created_at'];
+            var dateDiff = Math.ceil((current - tweetDate)/1000);
             var timeMessage;
 
+
             //setting the values for the timestamp
-            if(currentHours - tweetHour>0){
-              timelapse = currentHours - tweetHour; 
-              timelapse > 1 ? timeMessage = " hours ago" : timeMessage = " hour ago";
-            }else if(currentMins - tweetMin>0){
-              timelapse = currentMins - tweetMin;
-              timelapse > 1 ? timeMessage = " minutes ago" : timeMessage = " minute ago";
+            if(dateDiff < 60){
+              timelapse = dateDiff;
+              timelapse === 1 ? timeMessage = " second ago" : timeMessage = " seconds ago";
+            }else if(dateDiff < 3599){
+              timelapse = Math.round(dateDiff/60);
+              timelapse === 1 ? timeMessage = " minute ago" : timeMessage = " minutes ago"
             }else{
-              timelapse = currentSecs - tweetSec;
-              timelapse === 1 ? timeMessage = " second ago" : timeMessage = " seconds ago"; 
+              timelapse = Math.round(dateDiff/3600);
+              timelapse === 1 ? timeMessage = " hour ago" : timeMessage = " hours ago";
             }
 
 
