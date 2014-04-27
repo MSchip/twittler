@@ -37,6 +37,7 @@
           numTweets = streams.home.length > 49 ? 50 : streams.home.length-1;
           newTweets = streams.home.length-1;
           var index = newTweets;
+          lastTweetGot = newTweets+1;
 
           while(index >= (newTweets-numTweets)){
             var tweet = streams.home[index];
@@ -71,10 +72,22 @@
             index--;
           }
 
+          $body.find('.getTweets').text('Get New Tweets');
+
         });
         
         // Initial load
         $body.find('.getTweets').click();
+        
+        //Shows the amount of new tweets available every 10 seconds
+        var lastTweetGot;
+        var tweetsToGet;
+        var newTweetsToGet = function(){
+          tweetsToGet = streams.home.length - lastTweetGot;
+          $body.find('.getTweets').text('Get New Tweets ('+ tweetsToGet +')');
+          setTimeout(newTweetsToGet, 10000);
+        };
+        newTweetsToGet();
 
         // Loads the next 20 older tweets when clicked
         $body.on('click', '.old', function(event){
