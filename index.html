@@ -74,6 +74,12 @@
 
           $body.find('.getTweets').text('Get New Tweets');
 
+          previousTweets = newTweets - numTweets;
+
+          if(previousTweets > 0){
+            $body.find('.old').text('Old Tweets ('+ previousTweets + ')');
+          }
+
         });
         
         // Initial load
@@ -82,9 +88,14 @@
         //Shows the amount of new tweets available every 10 seconds
         var lastTweetGot;
         var tweetsToGet;
+        var previousTweets;
         var newTweetsToGet = function(){
           tweetsToGet = streams.home.length - lastTweetGot;
-          $body.find('.getTweets').text('Get New Tweets ('+ tweetsToGet +')');
+          if(tweetsToGet > 0){
+            $body.find('.getTweets').text('Get New Tweets ('+ tweetsToGet +')');
+          }else{
+            $body.find('.getTweets').text('Get New Tweets');
+          }
           setTimeout(newTweetsToGet, 10000);
         };
         newTweetsToGet();
@@ -94,7 +105,7 @@
           
           newTweets = newTweets-numTweets-1;
           var index = newTweets;
-          numTweets = index > 19 ? 20 : newTweets;
+          numTweets = index > 18 ? 19 : newTweets;
           
 
           while(index >= newTweets-numTweets){
@@ -128,6 +139,14 @@
             $(this).closest('body').find('.tweetContainer').append($tweetBlock);
             
             index--;
+          }
+
+          previousTweets = newTweets - numTweets;
+          
+          if(previousTweets > 0){
+            $body.find('.old').text('Old Tweets ('+ previousTweets + ')');
+          }else{
+            $body.find('.old').text('Old Tweets');
           }
 
         });
