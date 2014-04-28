@@ -16,27 +16,69 @@
         var newTweets;
         var timelapse;
         var current;
+        var currentUser = 'home';
 
-        tweetList = streams.home;
-
-
-        
         $body.append("<div class=\"getTweets\" >Get New Tweets</div>");
         $body.append("<div class=\"tweetContainer\"></div>");
         $body.append("<div class=\"old\" >Old Tweets</div>");
 
-        $body.on('click', '.shawndrost', function(){
-          var holder = streams.home;
-          tweetList = [];
-          for(var i=0; i<holder.length; i++){
-            if(holder[i]['user'] === 'shawndrost'){
-              tweetList.unshift(holder[i]);
-            }
-          }
+        tweetList = streams.home;
+
+        $body.on('click', '.home', function(){
+          currentUser = 'home';
+          setTweetList();
           $body.find('.getTweets').click();
+          $body.find('.old').click();
         });
 
+        $body.on('click', '.shawndrost', function(){
+          currentUser = 'shawndrost';
+          setTweetList();
+          $body.find('.getTweets').click();
+          $body.find('.old').click();
+        });
 
+        $body.on('click', '.sharksforcheap', function(){
+          currentUser = 'sharksforcheap';
+          setTweetList();
+          $body.find('.getTweets').click();
+          $body.find('.old').click();
+        });
+
+        $body.on('click', '.mracus', function(){
+          currentUser = 'mracus';
+          setTweetList();
+          $body.find('.getTweets').click();
+          $body.find('.old').click();
+        });
+
+        $body.on('click', '.douglascalhoun', function(){
+          currentUser = 'douglascalhoun';
+          setTweetList();
+          $body.find('.getTweets').click();
+          $body.find('.old').click();
+        });
+  
+
+        //Creates a list of available tweets dependant on the tweeters name that was clicked
+        var setTweetList = function(){
+
+          if(currentUser === 'home'){
+            tweetList = streams.home;
+          }else{
+            var holder = streams.home;
+            tweetList = [];
+            for(var i=0; i<holder.length; i++){
+              if(holder[i]['user'] === currentUser){
+                tweetList.push(holder[i]);
+              }
+            }
+          }        
+          setTimeout(setTweetList, 3000);
+        };
+        setTweetList();
+
+        
         //Load last 50 tweets on click
         $body.on('click', '.getTweets', function(event){
           event.preventDefault;
@@ -84,11 +126,13 @@
           }
 
           $body.find('.getTweets').text('Get New Tweets');
+          $('title').text('Twittler');
 
           previousTweets = newTweets - numTweets;
 
           if(previousTweets > 0){
             $body.find('.old').text('Old Tweets ('+ previousTweets + ')');
+            $('title').text('Twittler ('+ tweetsToGet +')');
           }
 
         });
