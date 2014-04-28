@@ -4,28 +4,39 @@
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
     <link rel="stylesheet" href="css/main.css">
+    <title>Twittler</title>
   </head>
 
   <body>
     <script>
       $(document).ready(function(){
         var $body = $('body');
+        var tweetList = [];
         var numTweets;
         var newTweets;
         var timelapse;
         var current;
-        var currentHours;
-        var currentMins;
-        var currentSecs;
 
-        $body.find('.tweetList').html('');
+        tweetList = streams.home;
+
 
         
         $body.append("<div class=\"getTweets\" >Get New Tweets</div>");
         $body.append("<div class=\"tweetContainer\"></div>");
         $body.append("<div class=\"old\" >Old Tweets</div>");
 
-        
+        $body.on('click', '.shawndrost', function(){
+          var holder = streams.home;
+          tweetList = [];
+          for(var i=0; i<holder.length; i++){
+            if(holder[i]['user'] === 'shawndrost'){
+              tweetList.unshift(holder[i]);
+            }
+          }
+          $body.find('.getTweets').click();
+        });
+
+
         //Load last 50 tweets on click
         $body.on('click', '.getTweets', function(event){
           event.preventDefault;
@@ -34,13 +45,13 @@
           //Sets the current date values used in displaying the timestamps
           current = new Date();
 
-          numTweets = streams.home.length > 49 ? 50 : streams.home.length-1;
-          newTweets = streams.home.length-1;
+          numTweets = tweetList.length > 49 ? 50 : tweetList.length-1;
+          newTweets = tweetList.length-1;
           var index = newTweets;
           lastTweetGot = newTweets+1;
 
           while(index >= (newTweets-numTweets)){
-            var tweet = streams.home[index];
+            var tweet = tweetList[index];
 
             // Variables for setting the timestamp
             var tweetDate = tweet['created_at'];
@@ -63,7 +74,7 @@
             
             //Creates a div block for each tweet putting the user in a header and timestamp in a footer
             var $tweetBlock = $('<div class="tweetBlock"></div>');
-            $tweetBlock.append($('<header class="user">@' + tweet.user + '</header>'));
+            $tweetBlock.append($('<header class="user '+tweet.user+'">@' + tweet.user + '</header>'));
             $tweetBlock.append($('<p class="content">' + tweet.message + '</p>'));
             $tweetBlock.append($('<footer class="timeStamp">' + timelapse + timeMessage + '</footer>'));
 
@@ -90,11 +101,13 @@
         var tweetsToGet;
         var previousTweets;
         var newTweetsToGet = function(){
-          tweetsToGet = streams.home.length - lastTweetGot;
+          tweetsToGet = tweetList.length - lastTweetGot;
           if(tweetsToGet > 0){
             $body.find('.getTweets').text('Get New Tweets ('+ tweetsToGet +')');
+            $('title').text('Twittler ('+ tweetsToGet +')');
           }else{
             $body.find('.getTweets').text('Get New Tweets');
+            $('title').text('Twittler');
           }
           setTimeout(newTweetsToGet, 10000);
         };
@@ -109,7 +122,7 @@
           
 
           while(index >= newTweets-numTweets){
-            var tweet = streams.home[index];
+            var tweet = tweetList[index];
 
             // Variables for setting the timestamp
             var tweetDate = tweet['created_at'];
