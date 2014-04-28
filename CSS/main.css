@@ -1,19 +1,70 @@
 body{
 }
 
- .getTweets{
+.buttonContainer{
+  width: 512px;
   display: block;
   position: relative;
-  margin: 0px auto 10px auto;
-  width: 500px;
-  padding: 5px;
-  border: 1px gray solid;
-  text-align: center;
-  border-radius: 15px;
-  -webkit-border-radius: 15px;
+  margin: 0px auto 0px auto;
+  padding: 0px;
 }
 
- .old{
+.draft{
+  display: inline-block;
+  line-height: 19px;
+  position: relative;
+  margin: 0px 5px 10px auto;
+  width: 363px;
+  padding: 5px;
+  border: 1px gray solid;
+  text-align: left;
+  float: left;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  font-family: 'Montserrat', 'sans-serif';
+}
+
+.send{
+  display: inline-block;
+  position: relative;
+  margin: 0px auto 10px 5px;
+  width: 113px;
+  padding: 5px;
+  border: 1px gray solid;
+  text-align: center;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  font-family: 'Montserrat', 'sans-serif';
+}
+
+.home{
+  display: inline-block;
+  position: relative;
+  margin: 0px 5px 10px auto;
+  width: 113px;
+  padding: 5px;
+  border: 1px gray solid;
+  text-align: center;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  float: left;
+  font-family: 'Montserrat', 'sans-serif';
+}
+
+.getTweets{
+  display: inline-block;
+  position: relative;
+  margin: 0px auto 10px 5px;
+  width: 363px;
+  padding: 5px;
+  border: 1px gray solid;
+  text-align: center;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  font-family: 'Montserrat', 'sans-serif';
+}
+
+.old{
   display: block;
   position: relative;
   margin: 0px auto 10px auto;
@@ -23,6 +74,7 @@ body{
   text-align: center;
   border-radius: 15px;
   -webkit-border-radius: 15px;
+  font-family: 'Montserrat', 'sans-serif';
 }
 
 .tweetContainer{
@@ -46,11 +98,13 @@ body{
 }
 
 .user{
-
+  font-family: 'Montserrat', 'sans-serif';
+  margin-bottom: 4px
 }
 
 .content{
-	margin: 0px;
+  margin: 0px;
+  font-family: 'Open Sans', 'sans-serif';
 }
 
 .timeStamp{
