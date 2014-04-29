@@ -17,12 +17,16 @@
         var newTweets;
         var timelapse;
         var current;
+        var message;
         var currentUser = 'home';
-        var visitor = prompt("Please enter your name","visitor");
+        window.visitor = prompt("Please enter your handle","visitor");
+        window.streams.users[visitor] = [];
+
+
 
         
         $body.append("<div class=\"buttonContainer\"></div>");
-        $('.buttonContainer').append("<input class=\"draft\" type=\"text\"/>");
+        $('.buttonContainer').append("<input class=\"draft\" type=\"text\" placeholder=\"Tweet Here...\"/>");
         $('.buttonContainer').append("<div class=\"send\" >Send</div>");
         $('.buttonContainer').append("<div class=\"home\" >Home</div>");
         $('.buttonContainer').append("<div class=\"getTweets\" >Get New Tweets</div>");
@@ -61,6 +65,13 @@
 
         $body.on('click', '.douglascalhoun', function(){
           currentUser = 'douglascalhoun';
+          setTweetList();
+          $body.find('.getTweets').click();
+          $body.find('.old').click();
+        });
+
+        $body.on('click', '.'+visitor, function(){
+          currentUser = visitor;
           setTweetList();
           $body.find('.getTweets').click();
           $body.find('.old').click();
@@ -159,6 +170,27 @@
           setTimeout(newTweetsToGet, 10000);
         };
         newTweetsToGet();
+
+
+        //sets message to tweet
+        $('input').keyup(function(){
+          message = $(this).val(); 
+        });
+
+        $('.send').on('click', function(){
+          writeTweet(message);
+          $('input').val("");
+          $body.find('.getTweets').click();
+        });
+
+        //Allowing the enter key to be used to submit the tweet
+        $('input').keypress(function(e){
+          if(e.which == 13){
+            $('.send').click();
+          }
+        });
+
+
 
         // Loads the next 20 older tweets when clicked
         $body.on('click', '.old', function(event){
